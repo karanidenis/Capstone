@@ -73,6 +73,11 @@ source env/bin/activate
     python -m langflow run
     ```
 
+6. The flows are as below:
+<img src="images/text-input-model.png" width="300" />
+<img src="images/langflow-with-url-only.png" width="300" />
+
+
 LangFlow will now be accessible at [http://localhost:7860/](http://localhost:7860/).
 Llama 3 via Ollama will now be available at [http://localhost:11434/](http://localhost:11434/).
 
@@ -100,7 +105,7 @@ expect result:
 ```sh
 python learnmate-url-model.py
 ```
-<img src="images/learnmate-text-output.png" width="300" />
+<img src="images/learnmate-url-output.png" width="300" />
 
 expected output:
 

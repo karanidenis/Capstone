@@ -125,3 +125,9 @@ This project uses Llama3 model connected by Ollama. The model takes content from
 
 >[!NOTE]
 >The extension has a few bugs but will be available for testing soon!
+
+Watch the video of the project Here
+
+<!-- [![Now in Android: 55]          // Title -->
+<!-- (https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail -->
+(https://youtu.be/ITblLkJha4A "Learmate project") 

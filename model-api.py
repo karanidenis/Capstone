@@ -115,7 +115,6 @@ def run_flow(message: str,
   tweaks: Optional[dict] = None,
   api_key: Optional[str] = None) -> dict:
     """
-    # api_key: 'xtMkISBXFeiuR4LiFN0H_XWL62VA8rMD'):
     
     # Run a flow with a given message and optional tweaks.
 

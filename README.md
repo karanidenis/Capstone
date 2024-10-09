@@ -23,7 +23,6 @@ This guide will help you get Ollama and LangFlow up and running using a Python v
 - Virtualenv
 
 
-
 ## Create a virtual environment
 
 1. Download Ollama and Llam3 Model
@@ -93,11 +92,18 @@ You must be in the `Backend` directory for the following:
 python3 learnmate-model.py
 ```
 
+expect result:
+<img src="images/learnmate-text-output.png" width="300" />
+
 2. Ask Llama3 for a summary of the content of webpage of the url you provide
 
 ```sh
 python learnmate-url-model.py
 ```
+<img src="images/learnmate-text-output.png" width="300" />
+
+expected output:
+
 
 This project uses Llama3 model connected by Ollama. The model takes content from user and provides summary or questions depending on user request. 
 

@@ -6,6 +6,8 @@
 ##### but also:
 #### 3. Personalization - focus on users with learning disabilities 
 
+>[!IMPORTANT]
+>The projectis still under development. Both the Model and extension are not fully developed.
 
 ## How to use the Model
 ## Running Ollama and Langflow with Python Virtualenv
@@ -27,9 +29,9 @@ This guide will help you get Ollama and LangFlow up and running using a Python v
     2. Download and install Ollama
     3. Open a terminal window and download the llama3 model
 
-        ```sh
-        ollama run llama3
-        ```
+    ```sh
+    ollama run llama3
+    ```
 
     Ensure that Llama3 is working before you proceed.
 
@@ -93,3 +95,7 @@ python3 learnmate-model.py
 ```sh
 python learnmate-url-model.py
 ```
+
+This project uses Llama3 model connected by Ollama. The model takes content from user and provides summary or questions depending on user request. 
+
+## How to use the Extension

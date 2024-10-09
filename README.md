@@ -7,9 +7,12 @@
 #### 3. Personalization - focus on users with learning disabilities 
 
 >[!IMPORTANT]
->The projectis still under development. Both the Model and extension are not fully developed.
+>The project is still under development. Both the Model and extension are not fully developed.
 
 ## How to use the Model
+>[!NOTE]
+>This project uses Llama3 LLM for summarization and quiz generation. 
+
 ## Running Ollama and Langflow with Python Virtualenv
 
 This guide will help you get Ollama and LangFlow up and running using a Python virtual environment.

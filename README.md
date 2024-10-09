@@ -113,3 +113,15 @@ expected output:
 This project uses Llama3 model connected by Ollama. The model takes content from user and provides summary or questions depending on user request. 
 
 ## How to use the Extension
+
+>[!TIP]
+> Clone your repository if it's not on your computer already
+> On edge, go to edge://extensions, or on Chrome, go to chrome://extensions
+> Toggle on "Developer Mode"
+> Click the "Load Unpacked" button
+> Select the `personal_extension`
+> Reload your browser and make sure the extension is toggled on
+> And you're installed!
+
+>[!NOTE]
+>The extension has a few bugs but will be available for testing soon!

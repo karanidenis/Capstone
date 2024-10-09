@@ -128,6 +128,6 @@ This project uses Llama3 model connected by Ollama. The model takes content from
 
 Watch the video of the project Here
 
-<!-- [![Now in Android: 55]          // Title -->
-<!-- (https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail -->
+[![Learmate project]         
+(images/text+url-model.png)] // Thumbnail
 (https://youtu.be/ITblLkJha4A "Learmate project") 

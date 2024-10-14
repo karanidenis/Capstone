@@ -125,3 +125,5 @@ This project uses Llama3 model connected by Ollama. The model takes content from
 
 >[!NOTE]
 >The extension has a few bugs but will be available for testing soon!
+
+Watch the video of the project <a href="https://youtu.be/ITblLkJha4A" target="_blank">Here</a>

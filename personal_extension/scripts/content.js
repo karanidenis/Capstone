@@ -1,9 +1,15 @@
 document.addEventListener("mouseup", () => {
     const selectedText = window.getSelection().toString().trim();
     if (selectedText.length > 0) {
-        chrome.runtime.sendMessage({ action: 'storeText', text: selectedText }, (response) => {
+        // Get the current page's URL and send it to the background script
+        const currentPageUrl = window.location.href;
+        
+        chrome.runtime.sendMessage({ 
+            action: 'storeUrl', 
+            url: currentPageUrl 
+        }, (response) => {
             if (response && response.success) {
-                console.log("Highlighted text stored:", selectedText);
+                console.log("URL stored:", currentPageUrl);
             }
         });
     }

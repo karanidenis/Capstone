@@ -1,20 +1,23 @@
 {
-    "manifest_version": 2,
-    "name": "Learnmate",
-    "version": "0.1",
-    "description": "Reads the current page URL, saves to local storage, and allows retrieval from any page",
-    "permissions": [
-      "storage", "activeTab", "scripting", "tabs"
-    ],
-    "background": {
-      "scripts": ["background.js"],
-      "persistent": false
+  "manifest_version": 2,
+  "name": "Text Selection API Trigger",
+  "version": "1.0",
+  "description": "Highlight text and get a nicely discussed summary.",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icon16.png"
     },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["scripts/content.js"]
-      }
-    ]
-  }
-  
+    "default_title": "Get summary of selected Text"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"]
+    }
+  ]
+}

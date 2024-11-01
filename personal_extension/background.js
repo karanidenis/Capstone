@@ -1,29 +1,14 @@
-// function debugLog(message) {
-//     console.log(`[BACKGROUND ${new Date().toISOString()}]: ${message}`);
-//   }
-  
-//   chrome.runtime.onInstalled.addListener(() => {
-//     debugLog('Extension installed/updated');
-//   });
-  
-//   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     debugLog(`Received message: ${JSON.stringify(request)}`);
-//     if (request.action === "logSelectedText") {
-//       debugLog(`Selected text from content script: ${request.text}`);
-//       sendResponse({status: "logged"});
-//     }
-//     return true; // Indicates we will send a response asynchronously
-//   });
-  
-//   debugLog('Background script loaded');
-
-
 function debugLog(message) {
   console.log(`[BACKGROUND ${new Date().toISOString()}]: ${message}`);
 }
 
 chrome.runtime.onInstalled.addListener(() => {
   debugLog('Extension installed/updated');
+});
+
+chrome.browserAction.onClicked.addListener((tab) => {
+  debugLog('Toolbar icon clicked');
+  chrome.tabs.sendMessage(tab.id, { action: "triggerApiRequest" });
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -50,10 +35,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
       return response.json();
     })
-    // .then(data => {
-    //   debugLog(`API response: ${JSON.stringify(data)}`);
-    //   sendResponse({ status: "success", output: data.output }); // Send output back
-    // })
+  
     .then(data => {
       debugLog(`API response: ${JSON.stringify(data)}`);
 

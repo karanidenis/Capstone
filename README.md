@@ -7,7 +7,7 @@
 #### 3. Personalization - focus on users with learning disabilities 
 
 >[!IMPORTANT]
->The project is still under development. Both the Model and extension are not fully developed.
+>The project is still under development. The User experience with the extension is still being optimized.
 
 ## How to use the Model
 >[!NOTE]
@@ -81,7 +81,7 @@ source env/bin/activate
 LangFlow will now be accessible at [http://localhost:7860/](http://localhost:7860/).
 Llama 3 via Ollama will now be available at [http://localhost:11434/](http://localhost:11434/).
 
-## Run the apps
+## Run the flows
 
 ### Ollama - Langflow
 
@@ -94,7 +94,7 @@ You must be in the `Backend` directory for the following:
 1. Ask Llama3 for summary of text content you provide
 
 ```sh
-python3 learnmate-model.py
+python3 model-api.py "example text input"
 ```
 
 expect result:
@@ -105,9 +105,9 @@ expect result:
 ```sh
 python learnmate-url-model.py
 ```
-<img src="images/learnmate-url-output.png" width="300" />
-
 expected output:
+
+<img src="images/learnmate-url-output.png" width="300" />
 
 
 This project uses Llama3 model connected by Ollama. The model takes content from user and provides summary or questions depending on user request. 
@@ -124,6 +124,9 @@ This project uses Llama3 model connected by Ollama. The model takes content from
 > 7. And you're installed!
 
 >[!NOTE]
->The extension has a few bugs but will be available for testing soon!
+>To test the extension, identify text you need explanation on then highlight and click on the middle icon shown in the image below. 
+
+<img src="images/output_icon.png" width="150" />
+
 
 Watch the video of the project <a href="https://youtu.be/ITblLkJha4A" target="_blank">Here</a>

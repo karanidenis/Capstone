@@ -1,71 +1,3 @@
-// function contentLog(message) {
-//     console.log(`[CONTENT ${new Date().toISOString()}]: ${message}`);
-//   }
-  
-//   function getSelectedText() {
-//     contentLog('getSelectedText function called');
-//     try {
-//       const selection = window.getSelection();
-//       contentLog(`Selection object: ${selection}`);
-//       const selectedText = selection.toString().trim();
-//       contentLog(`Raw selected text: "${selectedText}"`);
-      
-//       if (selectedText) {
-//         contentLog(`Selected text (${selectedText.length} characters): ${selectedText}`);
-//         chrome.runtime.sendMessage({action: "logSelectedText", text: selectedText}, function(response) {
-//           if (chrome.runtime.lastError) {
-//             contentLog(`Error sending message: ${chrome.runtime.lastError.message}`);
-//           } else {
-//             contentLog(`Message sent to background. Response: ${JSON.stringify(response)}`);
-//           }
-//         });
-//       } else {
-//         contentLog('No text currently selected');
-//       }
-//     } catch (error) {
-//       contentLog(`Error in getSelectedText: ${error.message}`);
-//     }
-//   }
-  
-//   // Automatically log selection changes
-//   document.addEventListener('selectionchange', function() {
-//     contentLog('Selection changed event fired');
-//     getSelectedText();
-//   });
-  
-//   contentLog('Content script loaded. Use getSelectedText() to manually trigger text selection logging.');
-  
-//   //Inject a button into the page for easy testing
-//   const button = document.createElement('button');
-//   button.textContent = 'Log Selected Text';
-//   button.style.position = 'fixed';
-//   button.style.top = '10px';
-//   button.style.right = '10px';
-//   button.style.zIndex = '9999';
-//   button.addEventListener('click', getSelectedText);
-//   document.body.appendChild(button);
-
-
-
-// function getSelectedText() {
-//     try {
-//       const selection = window.getSelection();
-//       selectedTextContent = selection.toString().trim();
-      
-//       if (selectedTextContent) {
-//         console.log('Selected text variable:', selectedTextContent);
-//       }
-//     } catch (error) {
-//       contentLog(`Error in getSelectedText: ${error.message}`);
-//     }
-//   }
-  
-//   // Listen for text selection
-//   document.addEventListener('selectionchange', function() {
-//     getSelectedText();
-//   });
-
-
 // let selectedTextContent = '';
 // let floatingWindow = null;
 
@@ -104,7 +36,6 @@
 //   const viewportWidth = window.innerWidth;
 //   const viewportHeight = window.innerHeight;
   
-//   // Adjust position to keep window within viewport
 //   let finalX = x;
 //   let finalY = y;
   
@@ -138,23 +69,31 @@
 //       const range = selection.getRangeAt(0);
 //       const rect = range.getBoundingClientRect();
       
-//       // Show floating window at the end of selection
-//       showFloatingWindow(
-//         selectedTextContent,
-//         rect.right + window.scrollX + 5, // 5px offset from selection
-//         rect.top + window.scrollY
-//       );
+//       // Send selected text to background script
+//       chrome.runtime.sendMessage({ action: "logSelectedText", text: selectedTextContent }, function(response) {
+//         if (chrome.runtime.lastError) {
+//           console.error(`Error sending message: ${chrome.runtime.lastError.message}`);
+//         } else {
+//           console.log(`Message sent to background. Response: ${JSON.stringify(response)}`);
+
+//           // Show the API output in the floating window
+//           if (response.status === "success") {
+//             showFloatingWindow(response.output, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+//           } else {
+//             showFloatingWindow(`Error: ${response.message}`, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+//           }
+//         }
+//       });
 //     } else {
 //       hideFloatingWindow();
 //     }
 //   } catch (error) {
-//     console.log(`Error in getSelectedText: ${error.message}`);
+//     console.error(`Error in getSelectedText: ${error.message}`);
 //   }
 // }
 
 // // Listen for text selection
 // document.addEventListener('selectionchange', function() {
-//   // Small delay to ensure the selection is complete
 //   setTimeout(getSelectedText, 10);
 // });
 
@@ -170,10 +109,15 @@
 //   hideFloatingWindow();
 // });
 
+// // Initial log message
+// console.log('Content script loaded. Use getSelectedText() to manually trigger text selection logging.');
+
+
 let selectedTextContent = '';
 let floatingWindow = null;
+let triggerIcon = null;
 
-// Create and style the floating window
+// Create and style the floating window with loader
 function createFloatingWindow() {
   const div = document.createElement('div');
   div.style.cssText = `
@@ -190,96 +134,113 @@ function createFloatingWindow() {
     overflow-wrap: break-word;
     display: none;
   `;
+  div.innerHTML = `<p>Thank you for using LearnMate, your response is loading...</p><div class="loader"></div>`;
   document.body.appendChild(div);
   return div;
 }
+
+// Create loader animation
+const style = document.createElement('style');
+style.innerHTML = `
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-top: 5px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(style);
 
 function showFloatingWindow(text, x, y) {
   if (!floatingWindow) {
     floatingWindow = createFloatingWindow();
   }
-  
-  floatingWindow.textContent = text;
+  floatingWindow.innerHTML = text;
   floatingWindow.style.display = 'block';
-  
-  // Position the window next to the selection
-  const windowWidth = floatingWindow.offsetWidth;
-  const windowHeight = floatingWindow.offsetHeight;
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-  
-  let finalX = x;
-  let finalY = y;
-  
-  if (x + windowWidth > viewportWidth) {
-    finalX = x - windowWidth;
-  }
-  
-  if (y + windowHeight > viewportHeight) {
-    finalY = y - windowHeight;
-  }
-  
-  floatingWindow.style.left = `${finalX}px`;
-  floatingWindow.style.top = `${finalY}px`;
+
+  // Position and display window logic...
 }
 
-function hideFloatingWindow() {
-  if (floatingWindow) {
-    floatingWindow.style.display = 'none';
+function createTriggerIcon(x, y) {
+  if (!triggerIcon) {
+    triggerIcon = document.createElement('button');
+    triggerIcon.style.cssText = `
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: url('your-icon.png') no-repeat center center;
+      background-size: cover;
+      border: none;
+      cursor: pointer;
+      z-index: 10000;
+    `;
+    triggerIcon.title = "Click to load response";
+    document.body.appendChild(triggerIcon);
   }
+  triggerIcon.style.left = `${x}px`;
+  triggerIcon.style.top = `${y}px`;
+  triggerIcon.style.display = 'block';
 }
 
 function getSelectedText() {
   try {
     const selection = window.getSelection();
     selectedTextContent = selection.toString().trim();
-    
     if (selectedTextContent) {
-      console.log('Selected text variable:', selectedTextContent);
-      
-      // Get the selection coordinates
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
+      createTriggerIcon(rect.right + window.scrollX + 5, rect.top + window.scrollY);
       
-      // Send selected text to background script
-      chrome.runtime.sendMessage({ action: "logSelectedText", text: selectedTextContent }, function(response) {
-        if (chrome.runtime.lastError) {
-          console.error(`Error sending message: ${chrome.runtime.lastError.message}`);
-        } else {
-          console.log(`Message sent to background. Response: ${JSON.stringify(response)}`);
+      // Trigger API call on icon click
+      triggerIcon.onclick = () => {
+        showFloatingWindow("Thank you for using LearnMate, your response is loading...", rect.right + window.scrollX + 5, rect.top + window.scrollY);
+        triggerIcon.style.display = 'none'; // Hide the icon after clicking
 
-          // Show the API output in the floating window
-          if (response.status === "success") {
-            showFloatingWindow(response.output, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+        chrome.runtime.sendMessage({ action: "logSelectedText", text: selectedTextContent }, function(response) {
+          if (chrome.runtime.lastError) {
+            showFloatingWindow(`Error: ${chrome.runtime.lastError.message}`, rect.right + window.scrollX + 5, rect.top + window.scrollY);
           } else {
-            showFloatingWindow(`Error: ${response.message}`, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+            if (response.status === "success") {
+              showFloatingWindow(response.output, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+            } else {
+              showFloatingWindow(`Error: ${response.message}`, rect.right + window.scrollX + 5, rect.top + window.scrollY);
+            }
           }
-        }
-      });
+        });
+      };
     } else {
       hideFloatingWindow();
+      if (triggerIcon) triggerIcon.style.display = 'none';
     }
   } catch (error) {
     console.error(`Error in getSelectedText: ${error.message}`);
   }
 }
 
-// Listen for text selection
+// Event listeners for text selection
 document.addEventListener('selectionchange', function() {
   setTimeout(getSelectedText, 10);
 });
 
-// Hide window when clicking outside
 document.addEventListener('mousedown', function(e) {
-  if (floatingWindow && !floatingWindow.contains(e.target)) {
+  if (floatingWindow && !floatingWindow.contains(e.target) && !triggerIcon.contains(e.target)) {
     hideFloatingWindow();
+    if (triggerIcon) triggerIcon.style.display = 'none';
   }
 });
 
-// Hide window when scrolling
-document.addEventListener('scroll', function() {
-  hideFloatingWindow();
-});
+document.addEventListener('scroll', hideFloatingWindow);
 
-// Initial log message
-console.log('Content script loaded. Use getSelectedText() to manually trigger text selection logging.');
+// Hide the floating window
+function hideFloatingWindow() {
+  if (floatingWindow) floatingWindow.style.display = 'none';
+  if (triggerIcon) triggerIcon.style.display = 'none';
+}

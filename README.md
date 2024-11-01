@@ -130,3 +130,5 @@ This project uses Llama3 model connected by Ollama. The model takes content from
 
 
 Watch the video of the project <a href="https://youtu.be/ITblLkJha4A" target="_blank">Here</a>
+
+[Report on Progress](https://docs.google.com/document/d/1RMHMU4_CsTYmOJyGjEC-zCOlB9fC6aBTMe2H9HyIGao/edit?usp=sharing)
